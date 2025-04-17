@@ -1,6 +1,5 @@
 name: CI/CD Pipeline for React App
 
-# Chạy CI/CD khi có sự thay đổi trong nhánh chính (main)
 on:
   push:
     branches:
@@ -9,6 +8,9 @@ on:
     branches:
       - main
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
     steps:
       # 1. Kiểm tra mã nguồn từ GitHub
@@ -28,13 +30,3 @@ on:
       # 4. Chạy test (nếu có)
       - name: Run tests
         run: npm test -- --coverage
-
-      
-
-      # 6. Triển khai ứng dụng (nếu cần, ví dụ deploy lên GitHub Pages)
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.0
-        with:
-          branch: gh-pages  # Nhánh sẽ chứa bản build (có thể là gh-pages, main...)
-          folder: build     # Thư mục chứa bản build của ứng dụng
-          token: ${{ secrets.GITHUB_TOKEN }}
