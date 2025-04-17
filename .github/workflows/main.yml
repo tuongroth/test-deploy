@@ -32,9 +32,7 @@ jobs:
       - name: Run tests
         run: npm test -- --coverage
 
-      # 5. Build ứng dụng
-      - name: Build the project
-        run: npm run build
+      
 
       # 6. Triển khai ứng dụng (nếu cần, ví dụ deploy lên GitHub Pages)
       - name: Deploy to GitHub Pages
