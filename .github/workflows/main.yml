@@ -1,0 +1,45 @@
+name: CI/CD Pipeline for React App
+
+# Chạy CI/CD khi có sự thay đổi trong nhánh chính (main)
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Sử dụng Ubuntu để chạy
+
+    steps:
+      # 1. Kiểm tra mã nguồn từ GitHub
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 2. Cài đặt Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Hoặc phiên bản Node.js bạn muốn
+
+      # 3. Cài đặt các dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Chạy test (nếu có)
+      - name: Run tests
+        run: npm test -- --coverage
+
+      # 5. Build ứng dụng
+      - name: Build the project
+        run: npm run build
+
+      # 6. Triển khai ứng dụng (nếu cần, ví dụ deploy lên GitHub Pages)
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages  # Nhánh sẽ chứa bản build (có thể là gh-pages, main...)
+          folder: build     # Thư mục chứa bản build của ứng dụng
+          token: ${{ secrets.GITHUB_TOKEN }}
